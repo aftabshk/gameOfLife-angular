@@ -1,10 +1,13 @@
 import { TestBed, async } from "@angular/core/testing";
 import { AppComponent } from "./app.component";
+import { BoardComponent } from "./board/board.component";
+import { By } from "@angular/platform-browser";
+import { timeout } from "q";
 
 describe("AppComponent", () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [AppComponent]
+      declarations: [AppComponent, BoardComponent]
     }).compileComponents();
   }));
 
@@ -14,21 +17,21 @@ describe("AppComponent", () => {
     expect(app).toBeTruthy();
   });
 
-  // it("should render title in a h1 tag", () => {
-  //   const fixture = TestBed.createComponent(AppComponent);
-  //   fixture.detectChanges();
-  //   const compiled = fixture.debugElement.nativeElement;
-  //   expect(compiled.querySelector("h1").textContent).toContain(
-  //     "Welcome to gameOfLife!"
-  //   );
-  // });
-
-  it("should call select cell when table has been clicked", () => {
+  it("should call nextGeneration function onClick", done => {
     const fixture = TestBed.createComponent(AppComponent);
-    const component = fixture.componentInstance;
-    fixture.detectChanges();
-    const cell = fixture.debugElement.nativeElement.querySelector("[id='1,2']");
-    cell.click();
-    expect(component.currentGeneration).toContain([1, 2]);
+    const app = fixture.debugElement.componentInstance;
+    spyOn(app, "evolve");
+    const startButton = fixture.debugElement.nativeElement.querySelector(
+      ".start-button"
+    );
+    const originalSetInterval = window.setInterval;
+    window.setInterval = callBack => {
+      callBack();
+      return 0;
+    };
+    startButton.click();
+    expect(app.evolve).toHaveBeenCalled();
+    window.setInterval = originalSetInterval;
+    done();
   });
 });

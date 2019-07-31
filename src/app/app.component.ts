@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { extend } from "webdriver-js-extender";
+import { nextGeneration } from "../lib/gameOfLife";
 
 @Component({
   selector: "app-root",
@@ -8,29 +8,25 @@ import { extend } from "webdriver-js-extender";
 })
 export class AppComponent implements OnInit {
   currentGeneration: Number[][];
-
-  createArray(count: number) {
-    return new Array(count);
-  }
+  bounds: Number[];
 
   ngOnInit() {
     this.currentGeneration = [];
+    this.bounds = [10, 10];
   }
 
-  selectCell(event) {
-    const coordinates = (event.srcElement as Element).id
-      .split(",")
-      .map(this.convertToNumber);
-    this.currentGeneration.push(coordinates);
+  cellClicked(event) {
+    this.currentGeneration.push(event);
   }
 
-  isAlive(row, column) {
-    return this.currentGeneration.some(
-      coordinate => coordinate[0] === +row && coordinate[1] === +column
-    );
+  startGame() {
+    setInterval(() => this.evolve(), 1000);
   }
 
-  private convertToNumber(value: string): Number {
-    return +value;
+  evolve() {
+    this.currentGeneration = nextGeneration(this.currentGeneration, {
+      bottomRight: this.bounds,
+      topLeft: [0, 0]
+    });
   }
 }

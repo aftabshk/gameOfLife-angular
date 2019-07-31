@@ -1,0 +1,9 @@
+<table class="board" id="table" (click)="selectCell($event)">
+  <tr *ngFor="let in of createArray(bounds[0]); let row = index">
+    <td
+      *ngFor="let in of createArray(bounds[1]); let column = index"
+      id="{{ row + ',' + column }}"
+      class="{{ isAlive(row, column) && 'selectedCell' }}"
+    ></td>
+  </tr>
+</table>

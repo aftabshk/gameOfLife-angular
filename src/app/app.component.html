@@ -1,9 +1,6 @@
-<table class="board" id="table" (click)="selectCell($event)">
-  <tr *ngFor="let in of createArray(10); let row = index">
-    <td
-      *ngFor="let in of createArray(10); let column = index"
-      id="{{ row + ',' + column }}"
-      class="{{ isAlive(row, column) && 'selectedCell' }}"
-    ></td>
-  </tr>
-</table>
+<!-- <app-board
+  [currentGeneration]="currentGeneration"
+  [bounds]="bounds"
+  (cellSelectionOutput)="cellClicked($event)"
+></app-board> -->
+<!-- <button class="start-button" (click)="startGame()">Start</button> -->

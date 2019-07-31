@@ -136,5 +136,8 @@
       }
     }
   },
-  "defaultProject": "gameOfLife"
+  "defaultProject": "gameOfLife",
+  "cli": {
+    "defaultCollection": "@ngrx/schematics"
+  }
 }
